@@ -7,23 +7,35 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "eslint"
+    "format": "prettier -w 'src/**/*.{ts,vue}'",
+    "lint": "eslint --fix src/*.{ts,vue} && eslint --fix src/**/*.{ts,vue}",
+    "fix": "run format && run lint"
   },
   "dependencies": {
+    "@vueuse/components": "^9.13.0",
     "@vueuse/core": "^9.13.0",
-    "vue": "^3.2.37"
+    "pinia": "^2.0.33",
+    "vue": "^3.2.37",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "@types/node": "^18.15.10",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "@vitejs/plugin-vue": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "eslint": "^8.34.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-vue": "^9.9.0",
     "postcss": "^8.4.18",
+    "prettier": "^2.8.5",
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "prettier-plugin-tailwindcss": "^0.2.5",
     "tailwindcss": "^3.2.1",
-    "typescript": "^4.6.4",
+    "typescript": "^4.9.5",
     "vite": "^3.1.0",
+    "vite-svg-loader": "^4.0.0",
     "vue-tsc": "^0.40.4"
   }
 }
