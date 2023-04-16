@@ -5,15 +5,26 @@ module.exports = {
     fontFamily: {
       sans: ['Roboto']
     },
+    placeholderColor: {
+      gray: '##cbd5e1'
+    },
     extend: {
       dropShadow: '1px 1px 3px rgba(104, 103, 103, 0.8)',
       spacing: {
+        4.5: '1.125rem', // 18px
         18: '4.75rem', // 76px
         26: '6.375rem', // 102px
         31: '7.75rem', // 124px
         41: '10.375rem' // 166px
       },
+      fontSize: {
+        xs: '0.625rem',
+        sm: '0.75rem',
+        base: '0.875rem',
+        lg: '1rem'
+      },
       colors: {
+        red: '#DC2626',
         gray: {
           light: '#FFFFFF',
           DEFAULT: '#F1F1F1',

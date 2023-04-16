@@ -1,5 +1,5 @@
 <template>
-  <div class="animate-bg-pan-left h-screen animate-color-change-2x">
+  <div class="h-screen animate-color-change-2x">
     <TheHeader />
     <div class="mx-16">
       <div class="mt-40 w-full">
