@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import SignUp from '../views/SignUp.vue'
-import TopIndex from '../views/TopIndex.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,12 +6,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'top',
-      component: TopIndex
+      component: () => import('../views/TopIndex.vue')
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignUp
+      component: () => import('../views/SignUp.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LogIn.vue')
     }
   ]
 })

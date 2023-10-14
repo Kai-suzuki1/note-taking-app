@@ -14,6 +14,7 @@
           width-num="w-41"
           size="xl"
           color="pink"
+          @on-click="toSignUp"
         >
           <template #text>JOIN US!</template>
           <template #icon>
@@ -30,7 +31,11 @@
 </template>
 
 <script setup lang="ts">
+  import { useRouter } from 'vue-router'
   import BaseRoundedButton from '../components/base/BaseRoundedButton.vue'
   import IconLoader from '../components/svg/IconLoader.vue'
   import TheHeader from '../components/TheHeader.vue'
+
+  const router = useRouter()
+  const toSignUp = () => router.push('/signup')
 </script>
