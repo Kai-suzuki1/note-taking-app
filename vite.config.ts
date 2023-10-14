@@ -6,6 +6,12 @@ import svgLoader from 'vite-svg-loader'
 export default defineConfig({
   plugins: [vue(), svgLoader()],
   server: {
-    port: 3000
+    port: 3000,
+    proxy: {
+      '/v1': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
+    }
   }
 })
