@@ -12,16 +12,17 @@
         :value="value"
         :placeholder="placeHolder"
         class="h-12 w-full rounded py-2.5 px-3.5 text-sm placeholder:opacity-40 focus:border-blue-light focus:outline-none focus:ring-2"
-        :class="{ 'border-red': errorFields?.[validationKey]?.length }"
+        :class="{ 'border-red': errorFields?.[validationKey]?.length && isEnteredInput }"
         @input="onInputValue"
+        @blur.once="blurHandler"
       />
-      <div class="h-4.5">
-        <p
-          v-if="errorFields?.[validationKey]?.length"
-          class="text-sm text-red"
-        >
-          {{ validationMessage }}
-        </p>
+      <div
+        v-if="
+          (errorFields?.[validationKey]?.length && isEnteredInput) ||
+          (beErrorMessages && beErrorMessages.filter((item) => item !== '')?.length > 0)
+        "
+      >
+        <InputErrors :error-value="validationMessage" />
       </div>
     </div>
   </div>
@@ -30,18 +31,22 @@
 <script setup lang="ts">
   import { useAsyncValidator } from '@vueuse/integrations/useAsyncValidator'
   import type { Rules } from 'async-validator'
-  import { computed, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { FormInputTypeValue } from '../../types'
+import InputErrors from '../InputErrors.vue'
 
   const props = defineProps<{
     value: string
     title: string
-    placeHolder: string
+    placeHolder?: string
     validationType: FormInputTypeValue
     validationKey: string
-    errorMessage: string
+    feErrorMessage?: string // front-end validation error message
+    beErrorMessages?: string[] // back-end validation error messages
     isValidInput: boolean
   }>()
+
+  const isEnteredInput = ref<boolean>(false)
 
   const formItem = computed<Record<string, string>>(() => {
     return {
@@ -57,7 +62,7 @@
             type: 'string',
             min: 1,
             max: 120,
-            message: props.errorMessage,
+            message: props.feErrorMessage,
             required: true
           }
         }
@@ -67,7 +72,7 @@
             type: 'email',
             min: 1,
             max: 120,
-            message: props.errorMessage,
+            message: props.feErrorMessage,
             required: true
           }
         }
@@ -77,7 +82,7 @@
             type: 'string',
             min: 4,
             max: 32,
-            message: props.errorMessage,
+            message: props.feErrorMessage,
             required: true
           }
         }
@@ -86,12 +91,10 @@
 
   const { pass, errorFields } = useAsyncValidator(formItem, rules)
 
-  // const hasValidationError = computed<boolean>(() => {
-  //   return errorFields?.value?.[props.validationKey].length
-  // })
-
-  const validationMessage = computed<string>(() => {
-    return errorFields.value?.[props.validationKey][0].message ?? ''
+  const validationMessage = computed(() => {
+    return props?.beErrorMessages
+      ? props.beErrorMessages.concat(errorFields.value?.[props.validationKey]?.[0]?.message ?? '')
+      : [errorFields.value?.[props.validationKey]?.[0]?.message ?? '']
   })
 
   const inputType = computed<FormInputTypeValue>(() => {
@@ -114,7 +117,9 @@
     emits('update:value', target.value)
   }
 
-  watch(pass, () => {
+  const blurHandler = () => (isEnteredInput.value = !isEnteredInput.value)
+
+  watch([pass], () => {
     emits('update:isValidInput', pass.value)
   })
 </script>

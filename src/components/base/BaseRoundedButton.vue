@@ -2,6 +2,7 @@
   <button
     class="cursor-pointer rounded-full border-2 font-bold text-white drop-shadow-md transition delay-100 duration-150 ease-in-out hover:drop-shadow-none disabled:!cursor-not-allowed disabled:!opacity-50"
     :class="[widthNum, height, colorVariants[props.color]]"
+    @click="clickHandler"
   >
     <div class="flex items-center justify-center">
       <p>
@@ -48,4 +49,10 @@
         return ''
     }
   })
+
+  const emit = defineEmits(['onClick'])
+
+  const clickHandler = () => {
+    emit('onClick')
+  }
 </script>

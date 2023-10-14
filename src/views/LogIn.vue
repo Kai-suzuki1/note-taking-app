@@ -1,46 +1,31 @@
 <template>
   <TheScreenContainer>
     <TheHeader :button-visibility="false" />
-    <div class="mt-14 flex items-center justify-center">
+    <div class="mt-20 flex items-center justify-center">
       <div class="flex w-3/5 items-center justify-center rounded-3xl bg-gray-dark">
         <div class="flex w-3/5 flex-col items-center justify-center">
           <IconLoader
             name="logo_large"
             class="mt-12 mb-5"
           />
-          <p class="mb-5 text-3xl font-bold leading-9">Sign Up</p>
+          <p class="mb-5 text-3xl font-bold leading-9">Log in</p>
           <div class="flex w-full flex-col items-stretch">
-            <BaseInputField
-              v-model:value="inputData.username.value"
-              v-model:is-valid-input="inputData.username.isValid"
-              title="User Name"
-              place-holder="Enter Your Account Name!"
-              validation-type="text"
-              validation-key="username"
-              fe-error-message="Name should be 120 letters or less"
-              :be-error-messages="beErrorMessages.username"
-              class="mb-3"
-            />
             <BaseInputField
               v-model:value="inputData.email.value"
               v-model:is-valid-input="inputData.email.isValid"
               title="Email"
-              place-holder="example@email.com"
               validation-type="email"
               validation-key="email"
               fe-error-message="Input email is invalid format"
-              :be-error-messages="beErrorMessages.email"
               class="mb-3"
             />
             <BaseInputField
               v-model:value="inputData.password.value"
               v-model:is-valid-input="inputData.password.isValid"
               title="Password"
-              place-holder="Enter Your Secret Password!"
               validation-type="password"
               validation-key="password"
               fe-error-message="Password should be more than 4 and 32 or less"
-              :be-error-messages="beErrorMessages.password"
               class="mb-6"
             />
           </div>
@@ -49,10 +34,10 @@
             size="lg"
             color="purple"
             :disabled="!canSubmit"
-            class="mb-3"
+            class=""
             @on-click="submitHandler"
           >
-            <template #text>Sing Up</template>
+            <template #text>Log in</template>
             <template
               v-if="canSubmit"
               #icon
@@ -60,8 +45,15 @@
               <CheckMedium class="ml-1" />
             </template>
           </BaseSquareButton>
-          <p class="text-xs">By creating an account</p>
-          <p class="mb-3 text-xs">you agree to our Terms of Service</p>
+          <InputErrors
+            v-if="logInError?.message"
+            class="mt-1"
+            error-value="Entered Email or Password Is Incorrect"
+          />
+          <p class="mt-3 text-xs">Don't have an account?</p>
+          <p class="mb-3 text-xs">
+            <RouterLink :to="{ name: 'signup' }">Sign Up from Here</RouterLink>
+          </p>
         </div>
       </div>
     </div>
@@ -71,27 +63,24 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { computed, onBeforeMount, ref } from 'vue'
+  import InputErrors from '../components/InputErrors.vue'
   import TheHeader from '../components/TheHeader.vue'
+  import TheScreenContainer from '../components/TheScreenContainer.vue'
   import BaseInputField from '../components/base/BaseInputField.vue'
   import BaseSquareButton from '../components/base/BaseSquareButton.vue'
   import CheckMedium from '../components/svg/CheckMedium.vue'
   import IconLoader from '../components/svg/IconLoader.vue'
   import { useAuthStore } from '../stores/useAuthStore'
-  import { SignUpForm, beSignUpFormErrorMessage } from '../types'
-  import { SignUpRequestBody } from '../types/api/request/types'
-  import TheScreenContainer from '../components/TheScreenContainer.vue'
+  import { LogInForm } from '../types'
+  import { LogInRequestBody } from '../types/api/request/types'
 
   const authStore = useAuthStore()
-  const { signUpError } = storeToRefs(authStore)
+  const { logInError } = storeToRefs(authStore)
   // Clear validation error whenever a user accessed the page
-  onBeforeMount(() => authStore.clearSignUpError())
+  onBeforeMount(() => authStore.clearLogInError())
 
   const isLoading = ref<boolean>(false)
-  const inputData = ref<SignUpForm>({
-    username: {
-      value: '',
-      isValid: false
-    },
+  const inputData = ref<LogInForm>({
     email: {
       value: '',
       isValid: false
@@ -102,42 +91,19 @@
     }
   })
 
-  const initialErrorMessages: beSignUpFormErrorMessage = {
-    username: [],
-    email: [],
-    password: []
-  }
-  const beErrorMessages = computed<beSignUpFormErrorMessage>(() => {
-    return signUpError.value && signUpError.value.message
-      ? signUpError.value.message?.reduce(
-          (acc, cur) => ({
-            ...acc,
-            [cur.fieldName]: [...acc[cur.fieldName], cur.detail]
-          }),
-          initialErrorMessages
-        )
-      : initialErrorMessages
-  })
-
-  const reqBody = computed<SignUpRequestBody>(() => ({
-    username: inputData.value.username.value,
+  const reqBody = computed<LogInRequestBody>(() => ({
     email: inputData.value.email.value,
     password: inputData.value.password.value
   }))
 
   const canSubmit = computed<boolean>(() => {
-    return (
-      inputData.value.username.isValid &&
-      inputData.value.email.isValid &&
-      inputData.value.password.isValid &&
-      !isLoading.value
-    )
+    return inputData.value.email.isValid && inputData.value.password.isValid && !isLoading.value
   })
 
   const submitHandler = async () => {
     if (canSubmit.value) {
       isLoading.value = await true
-      await authStore.signUp(reqBody.value)
+      await authStore.logIn(reqBody.value)
       isLoading.value = await false
     }
   }

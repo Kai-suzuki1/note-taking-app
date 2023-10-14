@@ -4,6 +4,7 @@
     class="cursor-pointer rounded-lg border-2 font-bold drop-shadow-md transition delay-150 duration-100 ease-in-out hover:text-white hover:drop-shadow-none disabled:!cursor-not-allowed disabled:!bg-transparent disabled:!opacity-40"
     :class="[widthNum, height, colorVariants[color]]"
     :disabled="disabled"
+    @click="clickHandler"
   >
     <div class="flex items-center justify-center">
       <p>
@@ -51,4 +52,10 @@
         return ''
     }
   })
+
+  const emit = defineEmits(['onClick'])
+
+  const clickHandler = () => {
+    emit('onClick')
+  }
 </script>
