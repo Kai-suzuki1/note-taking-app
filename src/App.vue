@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <RouterView />
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <RouterView />
 </template>
 
 <script setup lang="ts">
