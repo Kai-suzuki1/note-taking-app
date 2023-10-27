@@ -1,3 +1,4 @@
+import 'vue-router'
 import { LogInRequestBody, SignUpRequestBody } from './api/request/types'
 import { BUTTON_COLOR_TYPE, FORM_INPUT_TYPE, HTTP_STATUS_CODE, STATUS } from './const'
 
@@ -8,7 +9,8 @@ export type PickValue<T> = T extends { [K in keyof T]: infer U } ? U : never
 export type ButtonColorTypeValue = PickValue<typeof BUTTON_COLOR_TYPE>
 export type FormInputTypeValue = PickValue<typeof FORM_INPUT_TYPE>
 export type StatusTypeValue = PickValue<typeof STATUS>
-export type HttpStatusCodeValue = PickValue<typeof HTTP_STATUS_CODE>
+export type HttpStatusCodeValue = PickValue<typeof HTTP_STATUS_CODE> | 'NONE'
+export type HttpStatusCodeWithDefault = HttpStatusCodeValue | 'NONE'
 
 // Form Input
 export type SignUpForm = {
@@ -33,4 +35,11 @@ export type JwtClaimType = {
   sub: `${number}`
   iat: number
   exp: number
+}
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    // must be declared by every route
+    requiresAuth: boolean
+  }
 }

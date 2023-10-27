@@ -1,22 +1,22 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { HttpStatusCodeWithDefault } from '../types'
+
+const expectedErrorStatusCodes: HttpStatusCodeWithDefault[] = [400, 401, 403, 404, 405, 'NONE']
 
 export const useErrorFlagStore = defineStore(`errorFlag`, () => {
-  const is404 = ref<boolean>(false)
-  const is500 = ref<boolean>(false)
+  const errorStatus = ref<HttpStatusCodeWithDefault>('NONE')
 
-  const set404flag = (flag: boolean) => {
-    is404.value = flag
-  }
+  const isNotFound = computed(() => errorStatus.value === 404)
+  const isSystemError = computed(() => !expectedErrorStatusCodes.includes(errorStatus.value))
 
-  const set500flag = (flag: boolean) => {
-    is500.value = flag
+  const setErrorStatus = (value: HttpStatusCodeWithDefault) => {
+    errorStatus.value = value
   }
 
   const $reset = () => {
-    is404.value = false
-    is500.value = false
+    setErrorStatus('NONE')
   }
 
-  return { is404, is500, set404flag, set500flag, $reset }
+  return { errorStatus, setErrorStatus, $reset, isNotFound, isSystemError }
 })

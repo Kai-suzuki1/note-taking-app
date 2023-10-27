@@ -1,3 +1,5 @@
+import { HttpStatusCodeValue } from '../..'
+
 /**
  * API Error Response Types
  * For receiving validation error response
@@ -10,7 +12,7 @@ export type ValidationErrorMessage<T> = {
 export type ErrorResponse = {
   path: string
   message: string
-  statusCode: number
+  statusCode: HttpStatusCodeValue
   localDateTime: string
 }
 
