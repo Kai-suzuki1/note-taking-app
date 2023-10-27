@@ -1,5 +1,5 @@
 <template>
-  <div :class="`h-screen ${bgColor}`">
+  <div :class="`h-[calc(100vh-64px)] ${bgColor}`">
     <slot></slot>
   </div>
 </template>

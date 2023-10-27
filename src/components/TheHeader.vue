@@ -1,6 +1,8 @@
 <template>
-  <header class="flex h-16 items-center justify-between bg-gray-dark px-3.5">
-    <IconLoader name="logo_small" />
+  <header class="flex h-16 w-screen items-center justify-between bg-gray-dark px-3.5">
+    <RouterLink :to="{ name: toUrlOnIcon }">
+      <IconLoader name="logo_small" />
+    </RouterLink>
     <div v-if="buttonVisibility">
       <BaseSquareButton
         width-num="w-31"
@@ -26,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import { useRouter } from 'vue-router'
   import IconLoader from '../components/svg/IconLoader.vue'
   import BaseSquareButton from './base/BaseSquareButton.vue'
@@ -43,6 +45,11 @@
   const elLogIn = ref<HTMLButtonElement>()
   const elSignUp = ref<HTMLButtonElement>()
 
-  const toLogIn = () => router.push('/login')
-  const toSignUp = () => router.push('/signup')
+  const toUrlOnIcon = computed(() => {
+    // Only if the current page is either signup or login, navigate to TopIndex
+    return router.currentRoute.value.meta.requiresAuth ? 'home' : 'top'
+  })
+
+  const toLogIn = () => router.push({ name: 'login' })
+  const toSignUp = () => router.push({ name: 'signup' })
 </script>

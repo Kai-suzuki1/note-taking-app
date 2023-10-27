@@ -6,17 +6,35 @@ const router = createRouter({
     {
       path: '/',
       name: 'top',
-      component: () => import('../views/TopIndex.vue')
+      components: {
+        Header: () => import('../components/TheHeader.vue'),
+        default: () => import('../views/TopIndex.vue')
+      },
+      meta: { requiresAuth: false }
     },
     {
       path: '/signup',
       name: 'signup',
-      component: () => import('../views/SignUp.vue')
+      components: {
+        Header: () => import('../components/TheHeader.vue'),
+        default: () => import('../views/SignUp.vue')
+      },
+      props: {
+        Header: { buttonVisibility: false }
+      },
+      meta: { requiresAuth: false }
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LogIn.vue')
+      components: {
+        Header: () => import('../components/TheHeader.vue'),
+        default: () => import('../views/LogIn.vue')
+      },
+      props: {
+        Header: { buttonVisibility: false }
+      },
+      meta: { requiresAuth: false }
     }
   ]
 })

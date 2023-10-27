@@ -1,11 +1,11 @@
-import { StorageSerializers,useStorage } from '@vueuse/core'
-import axios,{ HttpStatusCode } from 'axios'
+import { StorageSerializers, useStorage } from '@vueuse/core'
+import axios, { HttpStatusCode } from 'axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import { LogInRequestBody,SignUpRequestBody } from '../types/api/request/types'
-import { AuthenticationResponse,ErrorResponse,ErrorResponseWithDetail } from '../types/api/response/types'
+import { LogInRequestBody, SignUpRequestBody } from '../types/api/request/types'
+import { AuthenticationResponse, ErrorResponse, ErrorResponseWithDetail } from '../types/api/response/types'
 import { isAxiosError } from '../utils/error'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
       await toast.success('Welcome to So-bar!!')
       // set token value to local storage
       token.value = await data.token
-      await router.push('/')
+      await router.push({ name: 'home' })
     } catch (error) {
       if (
         isAxiosError<ErrorResponseWithDetail<SignUpRequestBody>>(error) &&
@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = await data.token
       await clearLogInError()
       await toast.success('Welcome Back')
-      await router.push('/')
+      await router.push({ name: 'home' })
     } catch (error) {
       if (
         isAxiosError<ErrorResponse>(error) &&

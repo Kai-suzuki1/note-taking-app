@@ -1,8 +1,7 @@
 <template>
-  <div class="h-screen animate-color-change-2x">
-    <TheHeader />
+  <div class="h-[calc(100vh-64px)] animate-color-change-2x pt-16">
     <div class="mx-16">
-      <div class="mt-40 w-full">
+      <div class="mt-28 w-full">
         <h1
           class="animate-text-pop-up-top text-8xl font-black italic leading-[7rem] tracking-wide text-blue-dark shadow-gray-dark drop-shadow-md"
         >
@@ -25,7 +24,6 @@
           </template>
         </BaseRoundedButton>
       </div>
-      <div class="w-42 h-18"></div>
     </div>
   </div>
 </template>
@@ -34,8 +32,7 @@
   import { useRouter } from 'vue-router'
   import BaseRoundedButton from '../components/base/BaseRoundedButton.vue'
   import IconLoader from '../components/svg/IconLoader.vue'
-  import TheHeader from '../components/TheHeader.vue'
 
   const router = useRouter()
-  const toSignUp = () => router.push('/signup')
+  const toSignUp = () => router.push({ name: 'signup' })
 </script>

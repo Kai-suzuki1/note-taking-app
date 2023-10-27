@@ -1,7 +1,6 @@
 <template>
   <TheScreenContainer>
-    <TheHeader :button-visibility="false" />
-    <div class="mt-14 flex items-center justify-center">
+    <div class="flex items-center justify-center pt-14">
       <div class="flex w-3/5 items-center justify-center rounded-3xl bg-gray-dark">
         <div class="flex w-3/5 flex-col items-center justify-center">
           <IconLoader
@@ -60,8 +59,17 @@
               <CheckMedium class="ml-1" />
             </template>
           </BaseSquareButton>
-          <p class="text-xs">By creating an account</p>
-          <p class="mb-3 text-xs">you agree to our Terms of Service</p>
+          <div class="mb-3 text-center text-xs">
+            <p>By creating an account</p>
+            <p>you agree to our Terms of Service</p>
+            <p>
+              <RouterLink
+                class="text-blue hover:underline"
+                :to="{ name: 'login' }"
+                >Log In Page Is Here</RouterLink
+              >
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -71,7 +79,7 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia'
   import { computed, onBeforeMount, ref } from 'vue'
-  import TheHeader from '../components/TheHeader.vue'
+  import TheScreenContainer from '../components/TheScreenContainer.vue'
   import BaseInputField from '../components/base/BaseInputField.vue'
   import BaseSquareButton from '../components/base/BaseSquareButton.vue'
   import CheckMedium from '../components/svg/CheckMedium.vue'
@@ -79,7 +87,6 @@
   import { useAuthStore } from '../stores/useAuthStore'
   import { SignUpForm, beSignUpFormErrorMessage } from '../types'
   import { SignUpRequestBody } from '../types/api/request/types'
-  import TheScreenContainer from '../components/TheScreenContainer.vue'
 
   const authStore = useAuthStore()
   const { signUpError } = storeToRefs(authStore)

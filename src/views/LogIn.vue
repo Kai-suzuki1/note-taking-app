@@ -1,7 +1,6 @@
 <template>
   <TheScreenContainer>
-    <TheHeader :button-visibility="false" />
-    <div class="mt-20 flex items-center justify-center">
+    <div class="flex items-center justify-center pt-20">
       <div class="flex w-3/5 items-center justify-center rounded-3xl bg-gray-dark">
         <div class="flex w-3/5 flex-col items-center justify-center">
           <IconLoader
@@ -52,7 +51,11 @@
           />
           <p class="mt-3 text-xs">Don't have an account?</p>
           <p class="mb-3 text-xs">
-            <RouterLink :to="{ name: 'signup' }">Sign Up from Here</RouterLink>
+            <RouterLink
+              class="text-blue hover:underline"
+              :to="{ name: 'signup' }"
+              >Sign Up from Here</RouterLink
+            >
           </p>
         </div>
       </div>
@@ -64,7 +67,6 @@
   import { storeToRefs } from 'pinia'
   import { computed, onBeforeMount, ref } from 'vue'
   import InputErrors from '../components/InputErrors.vue'
-  import TheHeader from '../components/TheHeader.vue'
   import TheScreenContainer from '../components/TheScreenContainer.vue'
   import BaseInputField from '../components/base/BaseInputField.vue'
   import BaseSquareButton from '../components/base/BaseSquareButton.vue'
