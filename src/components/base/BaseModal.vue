@@ -50,13 +50,6 @@
     }
   )
 
-  // const emit = defineEmits<{
-  //   (e: 'change', id: number): void
-  // }>()
-
-  // dialogの参照を保持する変数
-  // const dialog = ref<HTMLDialogElement | null>(null)
-
   // ダイアログ外を押した時にモーダルを閉じる
   onClickOutside(modalWrapperRef, () => {
     props.onClose()

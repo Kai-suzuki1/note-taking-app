@@ -73,10 +73,6 @@
     isOpen.value = value
   }
 
-  // const emit = defineEmits<{
-  //   (e: 'click', type: FilterTypeValue): void
-  // }>()
-
   const updateFilterHandler = (type: FilterTypeValue) => {
     props.onToggleFilter(type)
     modalVisibilityHandler(false)
