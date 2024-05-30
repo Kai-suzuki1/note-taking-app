@@ -1,5 +1,6 @@
 export const BUTTON_COLOR_TYPE = ['purple', 'yellow', 'blue', 'pink'] as const
 export const FORM_INPUT_TYPE = ['text', 'email', 'password'] as const
+export const FILTER_TYPE = ['ALL', 'DELETED'] as const
 export const HTTP_STATUS_CODE = {
   CONTINUE: 100,
   SWITCHING_PROTOCOLS: 101,

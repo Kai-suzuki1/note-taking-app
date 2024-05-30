@@ -1,6 +1,6 @@
 import 'vue-router'
 import { SignUpRequestBody } from './api/request/types'
-import { BUTTON_COLOR_TYPE, FORM_INPUT_TYPE, HTTP_STATUS_CODE, STATUS } from './const'
+import { BUTTON_COLOR_TYPE, FILTER_TYPE, FORM_INPUT_TYPE, HTTP_STATUS_CODE, STATUS } from './const'
 
 // Util Types
 export type PickValue<T> = T extends { [K in keyof T]: infer U } ? U : never
@@ -11,6 +11,7 @@ export type FormInputTypeValue = PickValue<typeof FORM_INPUT_TYPE>
 export type StatusTypeValue = PickValue<typeof STATUS>
 export type HttpStatusCodeValue = PickValue<typeof HTTP_STATUS_CODE> | 'NONE'
 export type HttpStatusCodeWithDefault = HttpStatusCodeValue | 'NONE'
+export type FilterTypeValue = PickValue<typeof FILTER_TYPE>
 
 // Form Input
 export type SignUpForm = {

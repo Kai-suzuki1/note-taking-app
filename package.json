@@ -17,6 +17,7 @@
     "@vueuse/integrations": "^9.13.0",
     "async-validator": "^4.2.5",
     "axios": "^1.4.0",
+    "fuse.js": "^7.0.0",
     "pinia": "^2.0.33",
     "vue": "^3.2.37",
     "vue-router": "^4.1.6",

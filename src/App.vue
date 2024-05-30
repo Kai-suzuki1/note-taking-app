@@ -11,30 +11,40 @@
         name="Header"
         v-slot="{ Component, route }"
       >
-        <Transition
-          mode="out-in"
-          enter-active-class="transition-opacity"
-          leave-active-class="transition-opacity"
-          enter-from-class="opacity-0"
-          leave-to-class="opacity-0"
-        >
-          <div :key="route.fullPath">
-            <component :is="Component" />
-          </div>
-        </Transition>
+        <template v-if="Component">
+          <Transition
+            mode="out-in"
+            enter-active-class="transition-opacity"
+            leave-active-class="transition-opacity"
+            enter-from-class="opacity-0"
+            leave-to-class="opacity-0"
+          >
+            <Suspense timeout="0">
+              <div :key="route.fullPath">
+                <component :is="Component" />
+              </div>
+              <template #fallback>Loading...</template>
+            </Suspense>
+          </Transition>
+        </template>
       </RouterView>
       <RouterView v-slot="{ Component, route }">
-        <Transition
-          mode="out-in"
-          enter-active-class="transition-opacity"
-          leave-active-class="transition-opacity"
-          enter-from-class="opacity-0"
-          leave-to-class="opacity-0"
-        >
-          <div :key="route.fullPath">
-            <component :is="Component" />
-          </div>
-        </Transition>
+        <template v-if="Component">
+          <Transition
+            mode="out-in"
+            enter-active-class="transition-opacity"
+            leave-active-class="transition-opacity"
+            enter-from-class="opacity-0"
+            leave-to-class="opacity-0"
+          >
+            <Suspense timeout="0">
+              <div :key="route.fullPath">
+                <component :is="Component" />
+              </div>
+              <template #fallback>Loading...</template>
+            </Suspense>
+          </Transition>
+        </template>
       </RouterView>
     </template>
   </div>
