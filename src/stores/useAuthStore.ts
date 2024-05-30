@@ -1,11 +1,12 @@
 import { StorageSerializers, useStorage } from '@vueuse/core'
-import axios, { HttpStatusCode } from 'axios'
+import { HttpStatusCode } from 'axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import { logInUser, signUpUser } from '../api/authentications'
 import { LogInRequestBody, SignUpRequestBody } from '../types/api/request/types'
-import { AuthenticationResponse, ErrorResponse, ErrorResponseWithDetail } from '../types/api/response/types'
+import { ErrorResponse, ErrorResponseWithDetail } from '../types/api/response/types'
 import { isAxiosError } from '../utils/error'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -16,11 +17,11 @@ export const useAuthStore = defineStore('auth', () => {
   const logInError = ref<Partial<ErrorResponse>>({})
 
   const clearSignUpError = async () => {
-    signUpError.value = await {}
+    signUpError.value = {}
   }
 
   const clearLogInError = async () => {
-    logInError.value = await {}
+    logInError.value = {}
   }
 
   // TODO use for fetching user info
@@ -28,12 +29,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   const signUp = async (reqBody: SignUpRequestBody) => {
     try {
-      const { data } = await axios.post<AuthenticationResponse>('/v1/auth/register', reqBody)
+      const { data } = await signUpUser(reqBody)
       // clear error
       await clearSignUpError()
-      await toast.success('Welcome to So-bar!!')
+      toast.success('Welcome to So-bar!!')
       // set token value to local storage
-      token.value = await data.token
+      token.value = data.token
       await router.push({ name: 'home' })
     } catch (error) {
       if (
@@ -42,19 +43,19 @@ export const useAuthStore = defineStore('auth', () => {
         error.response?.status === HttpStatusCode.BadRequest
       ) {
         signUpError.value = error.response.data
-        await toast.error('Failed to create your account')
+        toast.error('Failed to create your account')
       } else {
-        // TODO handler for unexpected error
+        toast.error('Unexpected Error Occurred')
       }
     }
   }
 
   const logIn = async (reqBody: LogInRequestBody) => {
     try {
-      const { data } = await axios.post<AuthenticationResponse>('/v1/auth/authenticate', reqBody)
-      token.value = await data.token
+      const { data } = await logInUser(reqBody)
+      token.value = data.token
       await clearLogInError()
-      await toast.success('Welcome Back')
+      toast.success('Welcome Back')
       await router.push({ name: 'home' })
     } catch (error) {
       if (
@@ -63,9 +64,9 @@ export const useAuthStore = defineStore('auth', () => {
         error.response?.status === HttpStatusCode.BadRequest
       ) {
         logInError.value = error.response?.data
-        await toast.error('Failed to log in')
+        toast.error('Failed to log in')
       } else {
-        // TODO handler for unexpected error
+        toast.error('Unexpected Error Occurred')
       }
     }
   }
