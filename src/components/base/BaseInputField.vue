@@ -33,7 +33,7 @@
   import type { Rules } from 'async-validator'
   import { computed, ref, watch } from 'vue'
   import { FormInputTypeValue } from '../../types'
-import InputErrors from '../InputErrors.vue'
+  import InputErrors from '../InputErrors.vue'
 
   const props = defineProps<{
     value: string
@@ -70,8 +70,7 @@ import InputErrors from '../InputErrors.vue'
         return {
           [props.validationKey]: {
             type: 'email',
-            min: 1,
-            max: 120,
+            pattern: /^[a-zA-Z0-9_.+-]+@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}$/,
             message: props.feErrorMessage,
             required: true
           }
