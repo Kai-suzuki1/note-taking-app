@@ -85,7 +85,7 @@
   import CheckMedium from '../components/svg/CheckMedium.vue'
   import IconLoader from '../components/svg/IconLoader.vue'
   import { useAuthStore } from '../stores/useAuthStore'
-  import { SignUpForm, beSignUpFormErrorMessage } from '../types'
+  import { SignUpForm, apiSignUpFormErrorMessage } from '../types'
   import { SignUpRequestBody } from '../types/api/request/types'
 
   const authStore = useAuthStore()
@@ -109,12 +109,12 @@
     }
   })
 
-  const initialErrorMessages: beSignUpFormErrorMessage = {
+  const initialErrorMessages: apiSignUpFormErrorMessage = {
     username: [],
     email: [],
     password: []
   }
-  const beErrorMessages = computed<beSignUpFormErrorMessage>(() => {
+  const beErrorMessages = computed<apiSignUpFormErrorMessage>(() => {
     return signUpError.value && signUpError.value.message
       ? signUpError.value.message?.reduce(
           (acc, cur) => ({
@@ -143,9 +143,9 @@
 
   const submitHandler = async () => {
     if (canSubmit.value) {
-      isLoading.value = await true
+      isLoading.value = true
       await authStore.signUp(reqBody.value)
-      isLoading.value = await false
+      isLoading.value = false
     }
   }
 </script>

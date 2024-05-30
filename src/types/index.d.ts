@@ -1,5 +1,5 @@
 import 'vue-router'
-import { LogInRequestBody, SignUpRequestBody } from './api/request/types'
+import { SignUpRequestBody } from './api/request/types'
 import { BUTTON_COLOR_TYPE, FORM_INPUT_TYPE, HTTP_STATUS_CODE, STATUS } from './const'
 
 // Util Types
@@ -20,15 +20,11 @@ export type SignUpForm = {
   }
 }
 
-export type beSignUpFormErrorMessage = {
+export type apiSignUpFormErrorMessage = {
   [key in keyof SignUpRequestBody]: string[]
 }
 
 export type LogInForm = Omit<SignUpForm, 'username'>
-
-export type beLogInFormErrorMessage = {
-  [key in keyof LogInRequestBody]: string[]
-}
 
 // JWT Token Payload
 export type JwtClaimType = {
