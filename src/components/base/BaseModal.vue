@@ -1,6 +1,6 @@
 <template>
   <dialog
-    class="p-0"
+    :class="`p-0 outline-none ${dialogClass ?? ''}`"
     ref="dialogRef"
   >
     <Transition
@@ -13,6 +13,7 @@
       <div
         v-if="open"
         ref="modalWrapperRef"
+        :class="wrapperClass"
       >
         <slot />
       </div>
@@ -29,6 +30,8 @@
 
   const props = defineProps<{
     open: boolean
+    dialogClass?: string
+    wrapperClass: string
     onClose: () => void
   }>()
 

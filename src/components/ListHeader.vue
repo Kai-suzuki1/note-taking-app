@@ -14,46 +14,44 @@
     </div>
   </div>
   <BaseModal
-    class="outline-none"
     :open="isOpen"
+    wrapper-class="fixed bottom-0 left-0 h-[calc(100vh-64px)] w-52 bg-gray-light"
     :on-close="() => modalVisibilityHandler(false)"
   >
-    <div class="fixed bottom-0 left-0 h-[calc(100vh-64px)] w-52 bg-gray-light">
-      <!-- To make div element behave like button for accessibility -->
-      <div
-        role="button"
-        tabindex="0"
-        class="mt-10 flex h-12 items-center justify-between border-b border-gray-dark px-10 hover:bg-gray"
-        @click="updateFilterHandler('ALL')"
-        @keydown="(e: KeyboardEvent) => { 
+    <!-- To make div element behave like button for accessibility -->
+    <div
+      role="button"
+      tabindex="0"
+      class="mt-10 flex h-12 items-center justify-between border-b border-gray-dark px-10 hover:bg-gray"
+      @click="updateFilterHandler('ALL')"
+      @keydown="(e: KeyboardEvent) => { 
           if (e.key === 'Enter' || e.key === ' ') {
             updateFilterHandler('ALL')
           }
         }"
-      >
-        <IconLoader
-          class="mr-5 shrink-0"
-          name="stack"
-        />
-        <p class="text-base opacity-20">All Notes</p>
-      </div>
-      <div
-        role="button"
-        tabindex="0"
-        class="flex h-12 items-center justify-between border-b border-gray-dark px-10 hover:bg-gray"
-        @click="updateFilterHandler('DELETED')"
-        @keydown="(e: KeyboardEvent) => { 
+    >
+      <IconLoader
+        class="mr-5 shrink-0"
+        name="stack"
+      />
+      <p class="text-base opacity-20">All Notes</p>
+    </div>
+    <div
+      role="button"
+      tabindex="0"
+      class="flex h-12 items-center justify-between border-b border-gray-dark px-10 hover:bg-gray"
+      @click="updateFilterHandler('DELETED')"
+      @keydown="(e: KeyboardEvent) => { 
           if (e.key === 'Enter' || e.key === ' ') {
             updateFilterHandler('DELETED')
           }
         }"
-      >
-        <IconLoader
-          class="mr-5 shrink-0"
-          name="trash"
-        />
-        <p class="text-base opacity-20">Trash</p>
-      </div>
+    >
+      <IconLoader
+        class="mr-5 shrink-0"
+        name="trash"
+      />
+      <p class="text-base opacity-20">Trash</p>
     </div>
   </BaseModal>
 </template>

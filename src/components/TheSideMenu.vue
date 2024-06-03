@@ -33,24 +33,20 @@
   import { UseFuseOptions } from '@vueuse/integrations'
   import { useFuse } from '@vueuse/integrations/useFuse'
   import { storeToRefs } from 'pinia'
-  import { computed, ref } from 'vue'
+  import { computed, onBeforeMount, ref } from 'vue'
   import { useNoteStore } from '../stores/useNoteStore'
+  import { FilterTypeValue } from '../types'
   import { PreviewNoteResponse } from '../types/api/response/types'
   import ListHeader from './ListHeader.vue'
   import ListItem from './ListItem.vue'
   import ListSearch from './ListSearch.vue'
-  import { FilterTypeValue } from '../types'
 
-  // const route = useRoute()
+  const store = useNoteStore()
+  const { notes, search } = storeToRefs(store)
 
-  // const queryToString = (value: LocationQueryValue | LocationQueryValue[]): string | undefined => {
-  //   if (Array.isArray(value)) {
-  //     return value[0] ?? undefined
-  //   }
-  //   return value ?? undefined
-  // }
-
-  // const enteredInput = ref(queryToString(route.query.search) ?? '')
+  onBeforeMount(() => {
+    store.fetchNotes()
+  })
 
   const showDeletedNotes = ref(false)
 
@@ -61,18 +57,16 @@
     matchAllWhenSearchEmpty: true
   }))
 
-  const store = useNoteStore()
-  const { search } = storeToRefs(store)
-
-  const notes = ref<PreviewNoteResponse[]>(
-    (await store.fetchNotes())?.toSorted((a, b) => {
-      // notes are sorted according to the latest updated date
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-    }) ?? []
+  const sortedNotes = computed<PreviewNoteResponse[]>(
+    () =>
+      notes.value?.toSorted((a, b) => {
+        // notes are sorted according to the latest updated date
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      }) ?? []
   )
 
   const filteredNotes = computed<PreviewNoteResponse[]>(() =>
-    showDeletedNotes.value ? notes.value.filter((note) => note.deletedFlag) : notes.value
+    showDeletedNotes.value ? sortedNotes.value.filter((note) => note.deletedFlag) : sortedNotes.value
   )
 
   const updateFilterHandler = (type: FilterTypeValue) => {
@@ -87,6 +81,4 @@
   }
 
   const { results } = useFuse(search, filteredNotes, options)
-
-  // const searchedNotes = computed(() => (enteredInput.value ? fuse.search(enteredInput.value) : sortedNotes.value))
 </script>

@@ -30,4 +30,5 @@ export type PreviewNoteResponse = {
   updatedAt: string
   updatedBy: string
   deletedFlag: boolean
+  deletableFlag: boolean
 }

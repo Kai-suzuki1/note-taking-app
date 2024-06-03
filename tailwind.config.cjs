@@ -15,13 +15,15 @@ module.exports = {
         18: '4.75rem', // 76px
         26: '6.375rem', // 102px
         31: '7.75rem', // 124px
-        41: '10.375rem' // 166px
+        41: '10.375rem', // 166px
+        130: '32.25rem' // 520px
       },
       fontSize: {
-        xs: '0.625rem',
-        sm: '0.75rem',
-        base: '0.875rem',
-        lg: '1rem'
+        xs: '0.625rem', // 10px
+        sm: '0.75rem', // 12px
+        base: '0.875rem', // 14px
+        lg: '1rem', // 16px
+        xl: '1.125rem' // 18px
       },
       colors: {
         red: '#DC2626',

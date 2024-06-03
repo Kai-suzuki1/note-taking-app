@@ -20,19 +20,8 @@
   import { useNoteStore } from '../stores/useNoteStore'
   import IconLoader from './svg/IconLoader.vue'
 
-  /**
-   * Sync URL Query Params & Ref Data
-   */
-  // const updateDataFromUrlQuery = (query: LocationQuery) => {
-  //   enteredInput.value = queryToString(query.search) ?? ''
-  // }
-
   const store = useNoteStore()
   const { search } = storeToRefs(store)
-
-  // const emits = defineEmits<{
-  //   (e: 'update:searchValue', value: string): void
-  // }>()
 
   const inputHandler = (e: Event) => {
     const target = e.target as HTMLInputElement
