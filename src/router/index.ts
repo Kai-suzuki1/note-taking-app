@@ -47,17 +47,28 @@ const router = createRouter({
       meta: { requiresAuth: false }
     },
     {
-      // TODO change the temporary code for home
       path: '/notes',
       name: 'home',
       components: {
         Header: () => import('../components/TheHeader.vue'),
-        default: () => import('../views/TopNotes.vue')
+        default: () => import('../views/NoteIndex.vue')
       },
       props: {
         Header: { buttonVisibility: false }
       },
-      meta: { requiresAuth: false }
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/notes/:noteId/edit',
+      name: 'edit',
+      components: {
+        Header: () => import('../components/TheHeader.vue'),
+        default: () => import('../views/NoteEdit.vue')
+      },
+      props: {
+        Header: { buttonVisibility: false }
+      },
+      meta: { requiresAuth: true }
     },
     {
       path: '/:pathMatch(.*)',

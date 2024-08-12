@@ -6,6 +6,7 @@ import IconLoader from './components/svg/IconLoader.vue'
 import './index.css'
 import router from './router'
 // Import the CSS for vue-toastification
+import FloatingVue from 'floating-vue'
 import 'vue-toastification/dist/index.css'
 
 const app = createApp(App)
@@ -28,9 +29,9 @@ const options: PluginOptions = {
   maxToasts: 3,
   newestOnTop: true
 }
-
 app.use(pinia)
 app.use(router)
 app.use(Toast, options)
+app.use(FloatingVue)
 app.component('IconLoader', IconLoader)
 app.mount('#app')

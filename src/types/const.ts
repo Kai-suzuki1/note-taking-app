@@ -64,3 +64,88 @@ export const HTTP_STATUS_CODE = {
   NOT_EXTENDED: 510,
   NETWORK_AUTHENTICATION_REQUIRED: 511
 } as const
+
+export const FONT_COLOR = {
+  DEFAULT: {
+    label: 'Default',
+    color: '',
+    code: ''
+  },
+  GRAY: {
+    label: 'Gray',
+    color: 'text-gray-dark',
+    code: '#D6D6D6'
+  },
+  RED: {
+    label: 'Red',
+    color: 'text-red',
+    code: '#DC2626'
+  },
+  PURPLE: {
+    label: 'Purple',
+    color: 'text-purple',
+    code: '#6579FC'
+  },
+  PINK: {
+    label: 'Pink',
+    color: 'text-pink',
+    code: '#FF69B1'
+  },
+  BLUE: {
+    label: 'Blue',
+    color: 'text-blue',
+    code: '#3A9EFF'
+  },
+  GREEN: {
+    label: 'Green',
+    color: 'text-green-500',
+    code: '#22C55E'
+  },
+  ORANGE: {
+    label: 'Orange',
+    color: 'text-orange-500',
+    code: '#F97316'
+  }
+} as const
+
+export const HIGHLIGHT_COLOR = {
+  YELLOW: {
+    label: 'Yellow',
+    color: 'bg-yellow-100',
+    code: '#FEF9C3'
+  },
+  PURPLE: {
+    label: 'Purple',
+    color: 'bg-indigo-100',
+    code: '#E0E7FF'
+  },
+  PINK: {
+    label: 'Pink',
+    color: 'bg-pink-100',
+    code: '#FCE7F3'
+  },
+  BLUE: {
+    label: 'Blue',
+    color: 'bg-blue-100',
+    code: '#E0F2FE'
+  }
+} as const
+
+export const ALIGN_TYPE = {
+  LEFT: {
+    label: 'Align Left',
+    pathName: 'align-left'
+  },
+  RIGHT: {
+    label: 'Align Right',
+    pathName: 'align-right'
+  },
+  CENTER: {
+    label: 'Align Center',
+    pathName: 'align-center'
+  },
+  JUSTIFY: {
+    label: 'Justify',
+    pathName: 'align-justify'
+  }
+} as const
