@@ -32,3 +32,20 @@ export type PreviewNoteResponse = {
   deletedFlag: boolean
   deletableFlag: boolean
 }
+
+export type PermissionType = {
+  readOnly: boolean
+  readWrite: boolean
+}
+
+export type UserAuthorization = {
+  permissionId: number
+  userId: number
+  type: PermissionType
+}
+
+// API Response type for getNoteDetail
+export type NoteDetailResponse = Omit<PreviewNoteResponse, 'deletableFlag'> & {
+  userIsAuthor: boolean
+  sharedUsers: UserAuthorization[]
+}
