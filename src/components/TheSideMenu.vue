@@ -1,21 +1,20 @@
 <template>
   <div class="w-96">
     <ListHeader
-      :selectedFilterType="filterType"
+      :selectedFilterType="selectedFilterType"
       :on-toggle-filter="updateFilterHandler"
     />
     <ListSearch />
     <div
-      v-if="notes.length === 0"
+      v-if="hasEditableNote"
       class="flex h-[calc(100vh-149px)] justify-center overflow-auto border-r bg-gray"
     >
       <p class="my-auto text-lg font-bold text-gray-dark">
         Seems like you don't have notes...
-        <!-- TODO toの遷移先をcreateに変更する -->
-        <RouterLink
-          class="block text-blue-light hover:underline"
-          :to="{ name: 'login' }"
-          >Create your first note!</RouterLink
+        <a
+          class="block cursor-pointer text-blue-light hover:underline"
+          @click="onClick"
+          >Create your first note!</a
         >
       </p>
     </div>
@@ -39,7 +38,7 @@
   import { useFuse } from '@vueuse/integrations/useFuse'
   import { storeToRefs } from 'pinia'
   import { computed, ref, watch } from 'vue'
-  import { useRoute } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import { useNoteStore } from '../stores/useNoteStore'
   import { useUtilityStore } from '../stores/useUtilityStore'
   import { FilterTypeValue } from '../types'
@@ -53,10 +52,11 @@
   }>()
 
   const route = useRoute()
+  const router = useRouter()
 
   const noteStore = useNoteStore()
   const utilityStore = useUtilityStore()
-  const { search } = storeToRefs(noteStore)
+  const { search, selectedFilterType } = storeToRefs(noteStore)
   const { scrollPosition } = storeToRefs(utilityStore)
 
   const el = ref<HTMLElement | null>(null)
@@ -71,28 +71,18 @@
     }
   })
 
-  // watch(scrollPosition, () => {
-  //   x.value = scrollPosition.value.x
-  //   y.value = scrollPosition.value.y
-  // })
+  watch(scrollPosition, () => {
+    x.value = scrollPosition.value.x
+    y.value = scrollPosition.value.y
+  })
 
-  // onMounted(async () => {
-  //   console.log('updated')
-  //   new Promise((resolve, _) => {
-  //     setTimeout(() => {
-  //       resolve(() => {
-  //         x.value = scrollPosition.value.x
-  //         y.value = scrollPosition.value.y
-  //       })
-  //       console.log('process finished')
-  //     }, 1000)
-  //   })
-  // })
-  // onUpdated(() => {
-  //   console.log('updated')
-  //   x.value = scrollPosition.value.x
-  //   y.value = scrollPosition.value.y
-  // })
+  const hasEditableNote = computed(() => {
+    return (
+      props.notes.length === 0 ||
+      ((selectedFilterType.value === 'PROGRESS' || selectedFilterType.value === 'ALL') &&
+        props.notes.every((note) => note.deletedFlag))
+    )
+  })
 
   const options = computed<UseFuseOptions<PreviewNoteResponse>>(() => ({
     fuseOptions: {
@@ -108,11 +98,10 @@
         return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
       }) ?? []
   )
-  const filterType = ref<FilterTypeValue>('PROGRESS')
 
   const filteredNotes = computed<PreviewNoteResponse[]>(() => {
     return sortedNotes.value.filter((note) => {
-      switch (filterType.value) {
+      switch (selectedFilterType.value) {
         case 'PROGRESS':
           return !note.deletedFlag
         case 'DELETED':
@@ -123,7 +112,24 @@
     })
   })
 
-  const updateFilterHandler = (type: FilterTypeValue) => (filterType.value = type)
+  const updateFilterHandler = (type: FilterTypeValue) => (selectedFilterType.value = type)
 
   const { results } = useFuse(search, filteredNotes, options)
+
+  const isSubmitting = ref(false)
+  const onClick = async () => {
+    if (isSubmitting.value) {
+      return
+    }
+    isSubmitting.value = true
+
+    const returnVal = await noteStore.createNote()
+    await router.push({
+      name: 'edit',
+      params: {
+        noteId: returnVal
+      }
+    })
+    isSubmitting.value = false
+  }
 </script>

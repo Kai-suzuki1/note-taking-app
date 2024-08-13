@@ -1,6 +1,6 @@
 import 'vue-router'
 import { SignUpRequestBody } from './api/request/types'
-import { BUTTON_COLOR_TYPE, FILTER_TYPE, FORM_INPUT_TYPE, HTTP_STATUS_CODE, STATUS } from './const'
+import { BUTTON_COLOR_TYPE, FILTER_TYPE, FORM_INPUT_TYPE, HTTP_STATUS_CODE } from './const'
 
 // Util Types
 export type PickValue<T> = T extends { [K in keyof T]: infer U } ? U : never
@@ -8,7 +8,6 @@ export type PickValue<T> = T extends { [K in keyof T]: infer U } ? U : never
 // Const Value Types
 export type ButtonColorTypeValue = PickValue<typeof BUTTON_COLOR_TYPE>
 export type FormInputTypeValue = PickValue<typeof FORM_INPUT_TYPE>
-export type StatusTypeValue = PickValue<typeof STATUS>
 export type HttpStatusCodeValue = PickValue<typeof HTTP_STATUS_CODE> | 'NONE'
 export type HttpStatusCodeWithDefault = HttpStatusCodeValue | 'NONE'
 export type FilterTypeValue = PickValue<typeof FILTER_TYPE>
@@ -32,6 +31,11 @@ export type JwtClaimType = {
   sub: `${number}`
   iat: number
   exp: number
+}
+
+export type ScrollPosition = {
+  x: number
+  y: number
 }
 
 declare module 'vue-router' {
