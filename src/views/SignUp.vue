@@ -1,11 +1,11 @@
 <template>
   <TheScreenContainer>
-    <div class="flex items-center justify-center pt-14">
+    <div class="flex items-center justify-center pt-10">
       <div class="flex w-3/5 items-center justify-center rounded-3xl bg-gray-dark">
         <div class="flex w-3/5 flex-col items-center justify-center">
           <IconLoader
             name="logo_large"
-            class="mt-12 mb-5"
+            class="mt-8 mb-5"
           />
           <p class="mb-5 text-3xl font-bold leading-9">Sign Up</p>
           <div class="flex w-full flex-col items-stretch">

@@ -22,14 +22,17 @@
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
+  import { useNoteStore } from '../stores/useNoteStore'
   import { FilterTypeValue } from '../types'
   import IconLoader from './svg/IconLoader.vue'
 
   defineProps<{
     filterType: FilterTypeValue
-    selectedFilterType: FilterTypeValue
     iconName: string
     label: string
     onClick: (type: FilterTypeValue) => void
   }>()
+
+  const { selectedFilterType } = storeToRefs(useNoteStore())
 </script>

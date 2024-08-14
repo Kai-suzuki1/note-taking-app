@@ -9,9 +9,10 @@
     />
     <div class="h-[calc(100vh-64px)] w-[calc(100vw-384px)] overflow-y-auto">
       <textarea
+        placeholder="Title of your note"
         :disabled="!isEditable"
         maxlength="255"
-        class="h-28 w-full resize-none break-words border-none p-5 text-xl font-bold outline-none focus:ring-0"
+        class="h-28 w-full resize-none break-words border-none p-5 text-xl font-bold outline-none placeholder:text-gray-dark focus:ring-0"
         v-model="inputValue.title"
       />
       <TheEditor
@@ -48,7 +49,7 @@
   onBeforeMount(async () => {
     await noteStore.fetchNotes()
     await noteStore.fetchNoteDetail(Number.parseInt(Array.isArray(router.params.noteId) ? '' : router.params.noteId))
-    updateComponent()
+    await updateComponent()
   })
 
   const noteStore = useNoteStore()
@@ -61,7 +62,7 @@
     update the key value every before component is mounted
   */
   const renderKey = ref(0)
-  const updateComponent = () => (renderKey.value += 1)
+  const updateComponent = async () => (renderKey.value += 1)
 
   const inputValue = ref<NoteUpdateRequestBody>({
     title: noteDetail.value?.title ?? '',

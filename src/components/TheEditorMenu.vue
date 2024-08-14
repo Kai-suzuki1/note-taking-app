@@ -22,7 +22,6 @@
         </BaseEditorButton>
         <template #popper>
           <div class="flex flex-col">
-            <!-- TODO add hover class utility -->
             <button
               v-for="count in HEADING_LEVEL"
               :key="count"

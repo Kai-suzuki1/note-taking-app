@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import { createNoteApi, deleteNoteApi, getNoteDetailApi, getNotesApi, updateNoteApi } from '../api/notes'
+import { FilterTypeValue } from '../types'
 import { NoteUpdateRequestBody } from '../types/api/request/types'
 import {
   ErrorResponse,
@@ -17,6 +18,7 @@ export const useNoteStore = defineStore(`note`, () => {
   const noteDetail = ref<NoteDetailResponse | null>(null)
   const search = ref<string>('')
   const updateNoteError = ref<Partial<ErrorResponseWithDetail<NoteUpdateRequestBody>>>({})
+  const selectedFilterType = ref<FilterTypeValue>('PROGRESS')
 
   const setNotes = (value: PreviewNoteResponse[]) => {
     notes.value = value
@@ -104,6 +106,7 @@ export const useNoteStore = defineStore(`note`, () => {
       await clearUpdateNoteError()
       toast.success('Successfully Saved Changes')
       await fetchNotes()
+      await fetchNoteDetail(noteId)
     } catch (error) {
       if (
         isAxiosError<ErrorResponseWithDetail<NoteUpdateRequestBody>>(error) &&
@@ -129,6 +132,7 @@ export const useNoteStore = defineStore(`note`, () => {
     fetchNoteDetail,
     createNote,
     updateNote,
-    updateNoteError
+    updateNoteError,
+    selectedFilterType
   }
 })
