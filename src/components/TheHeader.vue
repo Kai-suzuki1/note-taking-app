@@ -9,7 +9,7 @@
         size="lg"
         color="purple"
         ref="elLogIn"
-        @on-click="toLogIn"
+        @on-click="logInnHandler"
       >
         <template #text>Log In</template>
       </BaseSquareButton>
@@ -19,19 +19,32 @@
         size="lg"
         color="yellow"
         ref="elSignUp"
-        @on-click="toSignUp"
+        @on-click="signUpHandler"
       >
         <template #text>Sign Up</template>
       </BaseSquareButton>
     </div>
+    <BaseSquareButton
+      v-else-if="route.name == 'home' || route.name == 'edit'"
+      width-num="w-28"
+      size="lg"
+      color="purple"
+      ref="elLogIn"
+      @on-click="logOutHandler"
+    >
+      <template #text>Log Out</template>
+    </BaseSquareButton>
   </header>
 </template>
 
 <script setup lang="ts">
+  import { storeToRefs } from 'pinia'
   import { computed, ref } from 'vue'
-  import { useRouter } from 'vue-router'
+  import { useRoute, useRouter } from 'vue-router'
   import IconLoader from '../components/svg/IconLoader.vue'
+  import { useAuthStore } from '../stores/useAuthStore'
   import BaseSquareButton from './base/BaseSquareButton.vue'
+  import { useToast } from 'vue-toastification'
 
   withDefaults(
     defineProps<{
@@ -42,6 +55,9 @@
     }
   )
   const router = useRouter()
+  const route = useRoute()
+  const toast = useToast()
+  const { token } = storeToRefs(useAuthStore())
   const elLogIn = ref<HTMLButtonElement>()
   const elSignUp = ref<HTMLButtonElement>()
 
@@ -50,6 +66,11 @@
     return router.currentRoute.value.meta.requiresAuth ? 'home' : 'top'
   })
 
-  const toLogIn = () => router.push({ name: 'login' })
-  const toSignUp = () => router.push({ name: 'signup' })
+  const logInnHandler = () => router.push({ name: 'login' })
+  const signUpHandler = () => router.push({ name: 'signup' })
+  const logOutHandler = () => {
+    token.value = null
+    toast.success('Successfully Logged Out')
+    router.push({ name: 'top' })
+  }
 </script>

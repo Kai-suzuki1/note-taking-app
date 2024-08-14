@@ -12,6 +12,11 @@
         <li class="mt-2">Accessing Wrong URL</li>
         <li class="mt-2">You Already Deleted Your Account</li>
       </ul>
+      <RouterLink
+        :to="{ name: 'top' }"
+        class="mt-5 block cursor-pointer text-2xl text-blue-light hover:underline"
+        >Back to Home</RouterLink
+      >
     </div>
   </TheScreenContainer>
 </template>
