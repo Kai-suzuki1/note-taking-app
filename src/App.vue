@@ -53,4 +53,10 @@
 
   // const store = useErrorFlagStore()
   // const { isNotFound, isSystemError } = storeToRefs(store)
+
+  import { useRouter } from 'vue-router'
+  import { globalRouter } from './router/globalRouter'
+
+  const router = useRouter()
+  globalRouter.router = router
 </script>

@@ -1,4 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
+import { useToast } from 'vue-toastification'
+import { globalRouter } from './router/globalRouter'
 import { useErrorFlagStore } from './stores/useErrorFlagStore'
 import { ErrorResponse } from './types/api/response/types'
 import { isAxiosError } from './utils/error'
@@ -22,10 +24,6 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
-// if (localStorage.token) {
-//   apiClient.defaults.headers.common['Authorization'] = `Bearer ${localStorage.token}`
-// }
-
 apiClient.interceptors.response.use(
   (response) => {
     const { $reset } = useErrorFlagStore()
@@ -36,6 +34,8 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     const { setErrorStatus } = useErrorFlagStore()
+    const toast = useToast()
+
     // To prevent more than one flag to be true
     if (isAxiosError<ErrorResponse>(error) && error.response?.data?.statusCode) {
       switch (error.response.data.statusCode) {
@@ -44,7 +44,8 @@ apiClient.interceptors.response.use(
         case 405:
           throw error
         case 403:
-          setErrorStatus(error.response.data.statusCode)
+          globalRouter.router?.push({ name: 'login' })
+          toast.error(error.response.data.message)
           throw error
         default:
           // Only set 404 error and unexpected errors

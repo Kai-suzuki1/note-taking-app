@@ -24,9 +24,6 @@ export const useAuthStore = defineStore('auth', () => {
     logInError.value = {}
   }
 
-  // TODO use for fetching user info
-  // const { sub: userId } = decodeJwt(token.value)
-
   const signUp = async (reqBody: SignUpRequestBody) => {
     try {
       const { data } = await signUpUser(reqBody)

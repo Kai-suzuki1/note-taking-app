@@ -2,7 +2,7 @@ import { HttpStatusCode, isAxiosError } from 'axios'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
-import { deleteNoteApi, getNoteDetailApi, getNotesApi, updateNoteApi } from '../api/notes'
+import { createNoteApi, deleteNoteApi, getNoteDetailApi, getNotesApi, updateNoteApi } from '../api/notes'
 import { NoteUpdateRequestBody } from '../types/api/request/types'
 import {
   ErrorResponse,
@@ -79,6 +79,24 @@ export const useNoteStore = defineStore(`note`, () => {
     }
   }
 
+  const createNote = async () => {
+    try {
+      const { data } = await createNoteApi()
+      // clear error
+      toast.success('Successfully Created New Note')
+      setNoteDetail(data)
+      return data.id
+    } catch (error) {
+      if (
+        isAxiosError<ErrorResponse>(error) &&
+        error?.response &&
+        error.response?.status !== HttpStatusCode.Forbidden
+      ) {
+        toast.error('Unexpected Error Occurred')
+      }
+    }
+  }
+
   const updateNote = async (noteId: number, reqBody: NoteUpdateRequestBody) => {
     try {
       await updateNoteApi(noteId, reqBody)
@@ -109,6 +127,7 @@ export const useNoteStore = defineStore(`note`, () => {
     fetchNotes,
     deleteNote,
     fetchNoteDetail,
+    createNote,
     updateNote,
     updateNoteError
   }
